@@ -1,0 +1,16 @@
+mixin pagination(objectPagination)
+  nav(aria-label="...")
+        ul.pagination
+            if (objectPagination.currentPage > 1)
+                li.page-item
+                    a(class="page-link" button-pagination=1) Trang đầu
+                li.page-item
+                    a(class="page-link" button-pagination=objectPagination.currentPage - 1) Trang trước
+            - for (var i = 1; i <= objectPagination.totalPage; i++)
+                li(class=`page-item ${objectPagination.currentPage == i ? "active" : ""}`)
+                    a(class="page-link" href="#" button-pagination=i) #{i}
+            if (objectPagination.currentPage < objectPagination.totalPage)
+                li.page-item
+                    a(class="page-link" button-pagination=objectPagination.currentPage + 1) Trang sau
+                li.page-item
+                    a(class="page-link" button-pagination=objectPagination.totalPage) Trang cuối

@@ -1,0 +1,10 @@
+mixin search(keyword)
+    form.d-flex(role="search" id="form-search")
+        input.form-control.me-2(
+        aria-label="Search" 
+        placeholder="Search" 
+        type="search"
+        name="search"
+        value=keyword
+        )
+        button.btn.btn-outline-success(type="submit") Search

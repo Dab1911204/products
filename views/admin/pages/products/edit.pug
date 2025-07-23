@@ -1,0 +1,92 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert
+
+block main
+    +alert-error(3000)
+    +alert-success(3000)
+    h1(class="mb-4") Sửa sản phẩm
+    form(action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
+    method="POST"
+    id="form-edit-product"
+    enctype="multipart/form-data")
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(type="text"
+            name="title"
+            id = "title"
+            class="form-control"
+            placeholder="Tiêu đề"
+            value=product.title)
+        div(class="form-group")
+            label(for="desc") Mô tả
+            textarea(name="description"
+            id="desc"
+            class="form-control"
+            placeholder="Mô tả"
+            rows="5") #{product.description}
+        div(class="form-group")
+            label(for="price") Giá
+            input(type="number"
+            name="price"
+            id="price"
+            class="form-control"
+            placeholder="Giá"
+            value=product.price
+            min="0")
+        div(class="form-group")
+            label(for="discount") % Giảm giá
+            input(type="number"
+            name="discountPercentage"
+            id="discount"
+            class="form-control"
+            placeholder="Giảm giá"
+            value=product.discountPercentage
+            min="0")
+        div(class="form-group")
+            label(for="stock") Số lượng
+            input(type="number"
+            name="stock"
+            id="stock"
+            class="form-control"
+            placeholder="Số lượng"
+            value=product.stock
+            min="0")
+        div(class="form-group" upload-image)
+            label(for="thumbnail") Hình ảnh
+            input(type="file"
+            name="thumbnail"
+            id="thumbnail"
+            class="form-control-file"
+            placeholder="Hình ảnh"
+            accept="image/*"
+            upload-image-input)
+            img(src=product.thumbnail, upload-image-preview alt="Hình ảnh sản phẩm" class="image-preview")
+        div(class="form-group")
+            label(for="position") Vị trí
+            input(type="number"
+            name="position"
+            id="position"
+            class="form-control"
+            placeholder="Vị trí"
+            value=product.position
+            min="1")
+        div(class="form-group form-check form-check-inline")
+            input(type="radio"
+            class="form-check-input"
+            name="status"
+            id="statusActive"
+            value="active"
+            checked = (product.status == "active" ? true : false))
+            label(for="statusActive" class="form-check-label") Hoạt động
+        div(class="form-group form-check form-check-inline")
+            input(type="radio"
+            class="form-check-input"
+            name="status"
+            id="statusInactive"
+            value="inactive"
+            checked = (product.status == "inactive" ? true : false))
+            label(for="statusInactive" class="form-check-label") Ngừng hoạt động
+        div(class="form-group")
+            button(type="submit"
+            class="btn btn-primary") Sửa
+    script(src="/admin/js/products.js")
