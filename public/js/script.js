@@ -148,3 +148,40 @@ if(uploadImage){
     })
 }
 //End Upload image
+
+//Sort
+const sort = document.querySelector('[sort]');
+console.log(sort);
+if (sort) {
+    const sortSelect = sort.querySelector('[sort-select]');
+    const sortClear = sort.querySelector('[sort-clear]');
+    const url = new URL(window.location.href);
+    sortSelect.addEventListener('change', (e) => {
+        const value = e.target.value;
+        if (value) {
+            const [sortField, sortValue] = value.split('-');
+            url.searchParams.set('sort', sortField);
+            url.searchParams.set('sortValue', sortValue);
+        } else {
+            url.searchParams.delete('sort');
+            url.searchParams.delete('sortValue');
+        }
+        window.location.href = url;
+    });
+    sortClear.addEventListener('click', () => {
+        url.searchParams.delete('sort');
+        url.searchParams.delete('sortValue');
+        sortSelect.value = '';
+        window.location.href = url;
+    });
+    // Xử lý sự kiện khi tải trang
+    const currentSort = url.searchParams.get('sort');
+    const currentSortValue = url.searchParams.get('sortValue');
+    if (currentSort && currentSortValue) {
+        sortSelect.value = `${currentSort}-${currentSortValue}`;
+        const option = document.createElement(`option[value="${currentSort}-${currentSortValue}"]`);
+        option.selected = true;
+    }
+
+}
+//End Sort

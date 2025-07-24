@@ -1,0 +1,13 @@
+mixin sort()
+    div(sort)
+        select(name="sort"
+        class="form-select"
+        sort-select)
+            option(value="position-desc") Vị trí tăng dần
+            option(value="position-asc") Vị trí giảm dần
+            option(value="title-asc") Tên A-Z
+            option(value="title-desc") Tên Z-A
+            option(value="price-asc") Giá tăng dần
+            option(value="price-desc") Giá giảm dần
+        button(class="btn btn-primary mt-2")
+            i(class="fa-solid fa-filter" sort-clear) Clear
