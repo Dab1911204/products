@@ -1,5 +1,6 @@
 const express = require('express');
 const methodOverride = require('method-override');
+const path = require('path');
 const bodyParser = require('body-parser');
 const expressFlash = require('express-flash');
 const cookieParser = require('cookie-parser');
@@ -16,6 +17,9 @@ const app = express();
 const port = process.env.PORT;// lấy cổng từ biến môi trường từ .env
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//TinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 
 app.set('views', __dirname + '/views');//set thư mục chứa view
