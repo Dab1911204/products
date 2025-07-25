@@ -71,16 +71,16 @@ block main
                             data-status="active"
                             data-id=item.id
                             button-change-status
-                            class="badge text-bg-success") Hoạt động 
+                            class="badge text-bg-success text-decoration-none") Hoạt động 
                         else
                             a(href="javascript:;"
                             data-status="inactive"
                             data-id=item.id
                             button-change-status
-                            class="badge text-bg-danger") Ngừng hoạt động
+                            class="badge text-bg-danger text-decoration-none") Ngừng hoạt động
                     td 
-                        a(class="btn btn-secondary btn-sm" href=`${prefixAdmin}/products/detail/${item.id}`) Chi tiết
-                        a(class="btn btn-warning btn-sm" href=`${prefixAdmin}/products/edit/${item.id}`) Sửa
+                        a(class="btn btn-secondary btn-sm text-decoration-none" href=`${prefixAdmin}/products/detail/${item.id}`) Chi tiết
+                        a(class="btn btn-warning btn-sm text-decoration-none" href=`${prefixAdmin}/products/edit/${item.id}`) Sửa
                         button(class="btn btn-danger btn-sm ml-1"
                         button-delete
                         data-id=item.id) xóa
