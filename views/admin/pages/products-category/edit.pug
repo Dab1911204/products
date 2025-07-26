@@ -4,10 +4,9 @@ include ../../mixins/select-tree
 
 block main
     +alert-error(3000)
-    h1(class="mb-4") Thêm sản phẩm
-    form(action=`${prefixAdmin}/products/create`
+    h1(class="mb-4") Sửa danh mục sản phẩm
+    form(action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
     method="POST"
-    id="form-create-product"
     enctype="multipart/form-data")
         div(class="form-group")
             label(for="title") Tiêu đề
@@ -15,49 +14,23 @@ block main
             name="title"
             id = "title"
             class="form-control"
-            placeholder="Tiêu đề")
+            placeholder="Tiêu đề"
+            value=data.title)
         div(class="form-group")
-            label(for="product_category_id") Danh mục
-            select(name="product_category_id"
-            id = "product_category_id"
+            label(for="parent_id") Danh mục cha
+            select(name="parent_id"
+            id = "parent_id"
             class="form-control")
-                option(value="") -- Chọn danh mục --
-                if (category)
-                    +select-tree(category)
+                option(value="") -- Chọn danh mục cha --
+                if (records)
+                    +select-tree(records, 0, data.parent_id)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(name="description"
             id="desc"
             class="form-control textarea_mce"
             placeholder="Mô tả"
-            rows="5")
-        div(class="form-group")
-            label(for="price") Giá
-            input(type="number"
-            name="price"
-            id="price"
-            class="form-control"
-            placeholder="Giá"
-            value="0"
-            min="0")
-        div(class="form-group")
-            label(for="discount") % Giảm giá
-            input(type="number"
-            name="discountPercentage"
-            id="discount"
-            class="form-control"
-            placeholder="Giảm giá"
-            value="0"
-            min="0")
-        div(class="form-group")
-            label(for="stock") Số lượng
-            input(type="number"
-            name="stock"
-            id="stock"
-            class="form-control"
-            placeholder="Số lượng"
-            value="0"
-            min="0")
+            rows="5") #{data.description}
         div(class="form-group" upload-image)
             label(for="thumbnail") Hình ảnh
             input(type="file"
@@ -67,7 +40,7 @@ block main
             placeholder="Hình ảnh"
             accept="image/*"
             upload-image-input)
-            img(src="", upload-image-preview alt="Hình ảnh sản phẩm" class="image-preview" style="width: 200px; height: 150px; object-fit: cover;")
+            img(src=data.thumbnail, upload-image-preview alt="Hình ảnh sản phẩm" class="image-preview" style="width: 200px; height: 150px; object-fit: cover;")
         div(class="form-group")
             label(for="position") Vị trí
             input(type="number"
@@ -75,25 +48,27 @@ block main
             id="position"
             class="form-control"
             placeholder="Vị trí"
-            min="1")
+            min="1"
+            value=data.position)
         div(class="form-group form-check form-check-inline")
             input(type="radio"
             class="form-check-input"
             name="status"
             id="statusActive"
             value="active"
-            checked)
+            checked = (data.status == "active" ? true : false))
             label(for="statusActive" class="form-check-label") Hoạt động
         div(class="form-group form-check form-check-inline")
             input(type="radio"
             class="form-check-input"
             name="status"
             id="statusInactive"
-            value="inactive")
+            value="inactive"
+            checked = (data.status == "inactive" ? true : false))
             label(for="statusInactive" class="form-check-label") Ngừng hoạt động
         div(class="form-group")
             button(type="submit"
-            class="btn btn-primary") Thêm
+            class="btn btn-primary") Sửa
     script(src="https://cdn.tiny.cloud/1/rb8401ud5yvnk1uai2vxr55oe39ajvh1fbxrfpczzxs3ypic/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous")
     script(src="/admin/js/products.js")
     script(src= "/admin/js/tinymce-config.js")

@@ -1,0 +1,44 @@
+extends ../../layouts/default.pug
+include ../../mixins/filter-status
+include ../../mixins/search
+include ../../mixins/pagination
+include ../../mixins/form-change-multi
+include ../../mixins/alert
+include ../../mixins/sort
+include ../../mixins/table-tree
+
+block main
+    +alert-success(3000)
+    h1 Nhóm quyền
+
+    .card.mb-3
+        .card-header Danh sách
+        .card-body
+            .row
+                .col-8 
+                .col-4.text-right
+                    a(href=`${prefixAdmin}/roles/create`
+                    class="btn btn-outline-success") Thêm quyền
+            table(class="table table-hover table-sm")
+                thead
+                    tr
+                        th STT
+                        th Nhóm quyền 
+                        th Mô tả    
+                        th Hành động
+                tbody
+                    if (roles && roles.length > 0)
+                        each role, index in roles
+                            tr
+                                td #{index + 1}
+                                td #{role.title}
+                                td #{role.description}
+                                td
+                                    a(class="btn btn-secondary btn-sm text-decoration-none" href=`${prefixAdmin}/roles/detail/${role.id}`) Chi tiết
+                                    a(class="btn btn-warning btn-sm text-decoration-none" href=`${prefixAdmin}/roles/edit/${role.id}`) Sửa
+                                    button(class="btn btn-danger btn-sm ml-1"
+                                            button-delete
+                                            data-id=role.id) xóa
+                    else
+                        tr
+                            td(colspan="4" class="text-center") Không có dữ liệu

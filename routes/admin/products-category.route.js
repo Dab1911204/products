@@ -9,5 +9,7 @@ const uploadCloud = require('../../middlewares/admin/uploadCloud.middleware');
 routes.get('/', productsCategoryController.index);
 routes.get('/create', productsCategoryController.create);
 routes.post('/create', upload.single('thumbnail'), uploadCloud.upload, productsCategoryController.createPost);
+routes.get('/edit/:id', productsCategoryController.edit);
+routes.patch('/edit/:id', upload.single('thumbnail'),uploadCloud.upload, productsValidates.createPost, productsCategoryController.editPatch);
 
 module.exports = routes;

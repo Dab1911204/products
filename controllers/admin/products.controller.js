@@ -4,6 +4,8 @@ const searchHelper = require('../../helpers/search')
 const mongoose = require('mongoose')
 const paginationHelper = require('../../helpers/pagination')
 const systemConfig = require('../../config/system')
+const ProductCategory = require('../../models/product-category.model')
+const createTreeHelper = require('../../helpers/createTree')
 
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -117,9 +119,15 @@ module.exports.deleteItem = async (req, res) => {
 
 //[GET] /admin/products/create
 module.exports.create = async (req, res) => {
+  const find = {
+    deleted: false
+  }
+  const records = await ProductCategory.find(find).sort({ position: "desc" });
+  const tree = createTreeHelper(records);
   res.render('admin/pages/products/create', {
     titlePage: 'Create Product Page',
     message: 'Welcome to the Create Product Page!',
+    category: tree,
   });
 }
 
@@ -150,10 +158,13 @@ module.exports.edit = async (req, res) => {
       deleted: false
     }
     const product = await Product.findOne(find)
+    const categorys = await ProductCategory.find({deleted: false}).sort({ position: "desc" });
+  const tree = createTreeHelper(categorys);
     res.render('admin/pages/products/edit', {
       titlePage: 'Edit Product Page',
       message: 'Welcome to the Create Product Page!',
       product: product,
+      categorys: tree,
     });
   } catch (err) {
     req.flash('error', 'Sản phẩm không tồn tại')
@@ -163,20 +174,20 @@ module.exports.edit = async (req, res) => {
 
 //[PATCH] /admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
-  console.log(req.file);
   req.body.price = parseInt(req.body.price)
   req.body.discountPercentage = parseInt(req.body.discountPercentage)
   req.body.stock = parseInt(req.body.stock)
   req.body.position = parseInt(req.body.position)
   try {
     await Product.updateOne({ _id: req.params.id }, req.body);
-    req.flash('success', 'Cập nhật sản phẩm thành công')
+    console.log(req.body);
+    req.flash('success', 'Sửa sản phẩm thành công')
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
   } catch (error) {
     req.flash('error', 'Cập nhật sản phẩm thất bại')
     return res.redirect(`${systemConfig.prefixAdmin}/products/edit/${req.params.id}`);
   }
-  req.flash('success', 'Thêm sản phẩm thành công')
-  res.redirect(`${systemConfig.prefixAdmin}/products`)
+  
 }
 
 //[GET] /admin/products/edit/:id

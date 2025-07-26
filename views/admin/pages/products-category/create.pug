@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert
+include ../../mixins/select-tree
 
 block main
     +alert-error(3000)
@@ -16,11 +17,12 @@ block main
             placeholder="Tiêu đề")
         div(class="form-group")
             label(for="parent_id") Danh mục cha
-            input(type="text"
-            name="parent_id"
+            select(name="parent_id"
             id = "parent_id"
-            class="form-control"
-            placeholder="Danh mục cha")
+            class="form-control")
+                option(value="") -- Chọn danh mục cha --
+                if (records)
+                    +select-tree(records)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(name="description"
@@ -37,7 +39,7 @@ block main
             placeholder="Hình ảnh"
             accept="image/*"
             upload-image-input)
-            img(src="", upload-image-preview alt="Hình ảnh sản phẩm" class="image-preview")
+            img(src="", upload-image-preview alt="Hình ảnh sản phẩm" class="image-preview" style="width: 200px; height: 150px; object-fit: cover;")
         div(class="form-group")
             label(for="position") Vị trí
             input(type="number"

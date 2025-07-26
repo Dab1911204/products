@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert
+include ../../mixins/select-tree
 
 block main
     +alert-error(3000)
@@ -17,6 +18,14 @@ block main
             class="form-control"
             placeholder="Tiêu đề"
             value=product.title)
+        div(class="form-group")
+            label(for="product_category_id") Danh mục
+            select(name="product_category_id"
+            id = "product_category_id"
+            class="form-control")
+                option(value="") -- Chọn danh mục --
+                if (categorys)
+                    +select-tree(categorys, 0, product.product_category_id)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(name="description"
@@ -60,7 +69,7 @@ block main
             placeholder="Hình ảnh"
             accept="image/*"
             upload-image-input)
-            img(src=product.thumbnail, upload-image-preview alt="Hình ảnh sản phẩm" class="image-preview")
+            img(src=product.thumbnail, upload-image-preview alt="Hình ảnh sản phẩm" class="image-preview" style="width: 200px; height: 150px; object-fit: cover;")
         div(class="form-group")
             label(for="position") Vị trí
             input(type="number"

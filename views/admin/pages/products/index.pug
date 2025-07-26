@@ -55,7 +55,7 @@ block main
                         input(type="checkbox" name="id" value=item.id)
                     td(scope="row") #{index + 1}
                     td 
-                        img(src=item.thumbnail alt=item.title)
+                        img(src=item.thumbnail alt=item.title style="width: 200px; height: 150px; object-fit: cover;")
                     td #{item.title}
                     td #{item.price}$
                     td 
