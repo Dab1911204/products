@@ -62,3 +62,28 @@ module.exports.editPatch = async (req, res) => {
         res.redirect(`${systemConfig.prefixAdmin}/roles`)
     }
 }
+
+//[GET] /admin/roles/permission
+module.exports.permission = async (req, res) => {
+    let find = {
+        deleted: false
+    }
+    const records = await Role.find(find)
+    res.render('admin/pages/roles/permission', {
+        titlePage: 'Permission Roles Page',
+        message: 'Welcome to the Dashboard Page!',
+        records: records
+    });
+};
+
+//[PATCH] /admin/roles/permission
+module.exports.permissionPatch = async (req, res) => {
+    const permissions = JSON.parse(req.body.permissions);
+    for (const permission of permissions) {
+        if (permission.id) {
+            await Role.updateOne({ _id: permission.id }, { permissions: permission.permissions });
+        }
+    }
+    req.flash('success', 'Cập nhật quyền thành công');
+    res.redirect(`${systemConfig.prefixAdmin}/roles/permissions`);
+};
