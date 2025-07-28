@@ -1,0 +1,32 @@
+extends ../../layouts/auth.pug
+include ../../mixins/alert
+
+block main 
+    +alert-success(3000)
+    .container.d-flex.justify-content-center.align-items-center.min-vh-100
+        .col-md-6.col-lg-4
+            .card.shadow-lg
+            .card-body.p-4
+                h3.card-title.text-center.mb-4 Đăng nhập
+                form(
+                method="POST" 
+                action=`${prefixAdmin}/auth/login`
+                )
+                    .mb-3
+                        label.form-label(for="email") Email
+                        input#email.form-control(
+                        required="" 
+                        placeholder="Nhập email" 
+                        name="email" 
+                        type="email"
+                        )
+                    .mb-3
+                        label.form-label(for="password") Mật khẩu
+                        input#password.form-control(
+                        required="" 
+                        placeholder="Nhập mật khẩu" 
+                        name="password" 
+                        type="password"
+                        )
+                    .d-grid
+                        button.btn.btn-primary(type="submit") Đăng nhập
