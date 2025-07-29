@@ -2,11 +2,23 @@ const Account = require('../../models/account.model');
 const md5 = require('md5');
 const systemConfig = require('../../config/system');
 
-module.exports.login = (req, res) => {
-    res.render('admin/pages/auth/login', {
-    titlePage: 'Login Page',
-    message: 'Welcome to the Dashboard Page!'
-  });
+module.exports.login = async (req, res) => {
+  if(req.cookies.token){
+    const user = await Account.findOne({token: req.cookies.token});
+    if (user) {
+      res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+    }else{
+      return res.render('admin/pages/auth/login', {
+      titlePage: 'Login Page',
+      message: 'Welcome to the Dashboard Page!'
+    });
+    }
+  }else{
+    return res.render('admin/pages/auth/login', {
+      titlePage: 'Login Page',
+      message: 'Welcome to the Dashboard Page!'
+    });
+  }
 }
 
 module.exports.loginPost = async (req, res) => {

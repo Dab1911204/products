@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const expressFlash = require('express-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const moment = require('moment');
 const routes = require('./routes/client/index.route');
 const routesAdmin = require('./routes/admin/index.route');
 require('dotenv').config(); // nạp biến môi trường từ .env
@@ -35,7 +36,7 @@ app.use(expressFlash());
 
 //app locals variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
-
+app.locals.moment = moment;
 
 routesAdmin(app); // sử dụng các route đã định nghĩa
 routes(app); // sử dụng các route đã định nghĩa

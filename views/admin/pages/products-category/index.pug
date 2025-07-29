@@ -8,29 +8,31 @@ include ../../mixins/sort
 include ../../mixins/table-tree
 
 block main
-    +alert-success(3000)
-    h1 Danh mục sản phẩm
+    if (role.permissions.includes("products-category_view"))
+        +alert-success(3000)
+        h1 Danh mục sản phẩm
 
-    .card.mb-3
-        .card-header Danh sách
-        .card-body
-            .row
-                .col-8 
-                .col-4 
-                    a(href=`${prefixAdmin}/products-category/create`
-                    class="btn btn-outline-success") Thêm danh mục sản phẩm
-            table(class="table caption-top"
-    checkbox-multi)
-                thead
-                    tr
-                        th 
-                            input(type="checkbox"
-                            name="checkAll")
-                        th(scope="col") STT
-                        th(scope="col") Hình ảnh
-                        th(scope="col") Tiêu đề
-                        th(scope="col") Vị trí
-                        th(scope="col") Trạng thái
-                        th(scope="col") Hàng động
-                tbody
-                    +table-tree(records)
+        .card.mb-3
+            .card-header Danh sách
+            .card-body
+                .row
+                    .col-8 
+                    .col-4 
+                        if (role.permissions.includes("products-category_create"))
+                            a(href=`${prefixAdmin}/products-category/create`
+                            class="btn btn-outline-success") Thêm danh mục sản phẩm
+                table(class="table caption-top"
+        checkbox-multi)
+                    thead
+                        tr
+                            th 
+                                input(type="checkbox"
+                                name="checkAll")
+                            th(scope="col") STT
+                            th(scope="col") Hình ảnh
+                            th(scope="col") Tiêu đề
+                            th(scope="col") Vị trí
+                            th(scope="col") Trạng thái
+                            th(scope="col") Hàng động
+                    tbody
+                        +table-tree(records)

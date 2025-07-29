@@ -1,4 +1,5 @@
 const Product = require('../../models/product.model')
+const Account = require('../../models/account.model')
 const filterStatusHelper = require('../../helpers/filterStatus')
 const searchHelper = require('../../helpers/search')
 const mongoose = require('mongoose')
@@ -47,6 +48,13 @@ module.exports.index = async (req, res) => {
 
   const products = await Product.find(find).sort(sort).limit(objectPagination.limitItem).skip(objectPagination.skip)
 
+  for(const product of products){
+    const user = await Account.findOne({_id: product.createdBy.account_id})
+    if (user) {
+      product.accountFullName = user.fullName
+    }
+  }
+
   res.render('admin/pages/products/index', {
     titlePage: 'Products Page',
     message: 'Welcome to the Products Page!',
@@ -86,7 +94,7 @@ module.exports.changeMulti = async (req, res) => {
       req.flash('success', 'Cập nhật trạng thái thành công')
       break;
     case "delete-all":
-      await Product.updateMany({ _id: { $in: ids } }, { deleted: true, deleteAt: new Date() })
+      await Product.updateMany({ _id: { $in: ids } }, { deleted: true, deletedBy: {account_id: res.locals.user.id, deletedAt: new Date()} })
       req.flash('success', 'Xóa sản phẩm thành công')
       break;
     case "change-position":
@@ -111,7 +119,7 @@ module.exports.deleteItem = async (req, res) => {
   const backUrl = req.query.referer || req.get("Referer") || "/admin/products";
   if (mongoose.Types.ObjectId.isValid(id)) {
     //await Product.deleteOne({ _id: id }) //xóa cứng
-    await Product.updateOne({ _id: id }, { deleted: true, deleteAt: new Date() })//xóa mềm
+    await Product.updateOne({ _id: id }, { deleted: true, deletedBy: {account_id: res.locals.user.id, deletedAt: new Date()} })//xóa mềm
     req.flash('success', 'Xóa sản phẩm thành công')
   }
   res.redirect(backUrl)//chuyển về trang trước đó
@@ -142,6 +150,9 @@ module.exports.createPost = async (req, res) => {
     req.body.position = countProduct + 1
   } else {
     req.body.position = parseInt(req.body.position)
+  }
+  req.body.createdBy = {
+    account_id: res.locals.user.id
   }
   const product = new Product(req.body)
   await product.save()

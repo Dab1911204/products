@@ -3,70 +3,71 @@ include ../../mixins/alert
 include ../../mixins/select-tree
 
 block main
-    +alert-error(3000)
-    h1(class="mb-4") Thêm danh mục sản phẩm
-    form(action=`${prefixAdmin}/products-category/create`
-    method="POST"
-    enctype="multipart/form-data")
-        div(class="form-group")
-            label(for="title") Tiêu đề
-            input(type="text"
-            name="title"
-            id = "title"
-            class="form-control"
-            placeholder="Tiêu đề")
-        div(class="form-group")
-            label(for="parent_id") Danh mục cha
-            select(name="parent_id"
-            id = "parent_id"
-            class="form-control")
-                option(value="") -- Chọn danh mục cha --
-                if (records)
-                    +select-tree(records)
-        div(class="form-group")
-            label(for="desc") Mô tả
-            textarea(name="description"
-            id="desc"
-            class="form-control textarea_mce"
-            placeholder="Mô tả"
-            rows="5")
-        div(class="form-group" upload-image)
-            label(for="thumbnail") Hình ảnh
-            input(type="file"
-            name="thumbnail"
-            id="thumbnail"
-            class="form-control-file"
-            placeholder="Hình ảnh"
-            accept="image/*"
-            upload-image-input)
-            img(src="", upload-image-preview alt="Hình ảnh sản phẩm" class="image-preview" style="width: 200px; height: 150px; object-fit: cover;")
-        div(class="form-group")
-            label(for="position") Vị trí
-            input(type="number"
-            name="position"
-            id="position"
-            class="form-control"
-            placeholder="Vị trí"
-            min="1")
-        div(class="form-group form-check form-check-inline")
-            input(type="radio"
-            class="form-check-input"
-            name="status"
-            id="statusActive"
-            value="active"
-            checked)
-            label(for="statusActive" class="form-check-label") Hoạt động
-        div(class="form-group form-check form-check-inline")
-            input(type="radio"
-            class="form-check-input"
-            name="status"
-            id="statusInactive"
-            value="inactive")
-            label(for="statusInactive" class="form-check-label") Ngừng hoạt động
-        div(class="form-group")
-            button(type="submit"
-            class="btn btn-primary") Thêm
-    script(src="https://cdn.tiny.cloud/1/rb8401ud5yvnk1uai2vxr55oe39ajvh1fbxrfpczzxs3ypic/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous")
-    script(src="/admin/js/products.js")
-    script(src= "/admin/js/tinymce-config.js")
+    if (role.permissions.includes("products-category_create"))
+        +alert-error(3000)
+        h1(class="mb-4") Thêm danh mục sản phẩm
+        form(action=`${prefixAdmin}/products-category/create`
+        method="POST"
+        enctype="multipart/form-data")
+            div(class="form-group")
+                label(for="title") Tiêu đề
+                input(type="text"
+                name="title"
+                id = "title"
+                class="form-control"
+                placeholder="Tiêu đề")
+            div(class="form-group")
+                label(for="parent_id") Danh mục cha
+                select(name="parent_id"
+                id = "parent_id"
+                class="form-control")
+                    option(value="") -- Chọn danh mục cha --
+                    if (records)
+                        +select-tree(records)
+            div(class="form-group")
+                label(for="desc") Mô tả
+                textarea(name="description"
+                id="desc"
+                class="form-control textarea_mce"
+                placeholder="Mô tả"
+                rows="5")
+            div(class="form-group" upload-image)
+                label(for="thumbnail") Hình ảnh
+                input(type="file"
+                name="thumbnail"
+                id="thumbnail"
+                class="form-control-file"
+                placeholder="Hình ảnh"
+                accept="image/*"
+                upload-image-input)
+                img(src="", upload-image-preview alt="Hình ảnh sản phẩm" class="image-preview" style="width: 200px; height: 150px; object-fit: cover;")
+            div(class="form-group")
+                label(for="position") Vị trí
+                input(type="number"
+                name="position"
+                id="position"
+                class="form-control"
+                placeholder="Vị trí"
+                min="1")
+            div(class="form-group form-check form-check-inline")
+                input(type="radio"
+                class="form-check-input"
+                name="status"
+                id="statusActive"
+                value="active"
+                checked)
+                label(for="statusActive" class="form-check-label") Hoạt động
+            div(class="form-group form-check form-check-inline")
+                input(type="radio"
+                class="form-check-input"
+                name="status"
+                id="statusInactive"
+                value="inactive")
+                label(for="statusInactive" class="form-check-label") Ngừng hoạt động
+            div(class="form-group")
+                button(type="submit"
+                class="btn btn-primary") Thêm
+        script(src="https://cdn.tiny.cloud/1/rb8401ud5yvnk1uai2vxr55oe39ajvh1fbxrfpczzxs3ypic/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous")
+        script(src="/admin/js/products.js")
+        script(src= "/admin/js/tinymce-config.js")
     

@@ -10,8 +10,8 @@ module.exports.index = async (req, res) => {
   }
   const records = await Account.find(find).select("-password -token")
   for(const record of records) {
-    const role = await Role.findOne({_id: record.role_id ,deleted: false});
-    record.role = role;
+    const data = await Role.findOne({_id: record.role_id ,deleted: false});
+    record.role = data;
   }
   res.render(`admin/pages/accounts/index`, {
     titlePage: 'Accounts Page',
