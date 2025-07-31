@@ -52,6 +52,7 @@ block main
                     th(scope="col") Vị trí
                     th(scope="col") Trạng thái
                     th(scope="col") Người tạo
+                    th(scope="col") Người cập nhật
                     th(scope="col") Hàng động
             tbody
                 each item,index in products
@@ -98,6 +99,11 @@ block main
                         td 
                             p #{item.accountFullName}
                             +formatDateTime(item.createdBy.createdAt)
+                        td 
+                            - const updatedBy = item.updatedBy.slice(-1)[0]
+                            if (updatedBy)
+                                p #{updatedBy.accountFullName}
+                                +formatDateTime(updatedBy.updatedAt)
                         td 
                             a(class="btn btn-secondary btn-sm text-decoration-none" href=`${prefixAdmin}/products/detail/${item.id}`) Chi tiết
                             if (role.permissions.includes("products_edit"))
